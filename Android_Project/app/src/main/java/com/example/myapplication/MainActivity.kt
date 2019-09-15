@@ -17,24 +17,19 @@ import java.lang.NullPointerException
 class MainActivity : AppCompatActivity(), SensorEventListener {
 
     lateinit var sensorManager: SensorManager
-    var output = ""
     var boolVal = 0
 
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
     }
 
     override fun onSensorChanged(event: SensorEvent) {
-        if (sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE) != null) {
-            if (boolVal == 0) {
-                textView.text =
-                    "X = ${event!!.values[0]}\n\n" + "Y = ${event.values[1]}\n\n" + "Z= ${event.values[2]}\n\n"
-            } else {
-                textView.text = ""
-            }
+        if (boolVal == 0) {
+            textView.text =
+                "X = ${event!!.values[0]}\n\n" + "Y = ${event.values[1]}\n\n" + "Z= ${event.values[2]}\n\n"
+        } else {
+            textView.text = ""
         }
-        else{
-            textView.text = "Sensor not avail"
-        }
+
     }
 
 
@@ -47,16 +42,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
        start_button.setOnClickListener {
            boolVal = 0
            sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-           if (sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE) != null){
+           if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null){
                sensorManager.registerListener(
                    this,
-                   sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE)  ,
+                   sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)  ,
                    SensorManager.SENSOR_DELAY_NORMAL
                )
 
-               findViewById<TextView>(R.id.textView).apply {
-                   text = output
-               }
            }
            else{
                textView.text = "Sensor Not Available"
